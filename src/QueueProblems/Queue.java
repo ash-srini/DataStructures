@@ -1,7 +1,7 @@
 package QueueProblems;
 
 /**
- * Created by Lakshmy on 8/30/2016.
+ * Created by Aishwarya on 8/30/2016.
  */
 
 public interface Queue<Item>

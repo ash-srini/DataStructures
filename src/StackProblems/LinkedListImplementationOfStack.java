@@ -1,7 +1,7 @@
 package StackProblems;
 
 /**
- * Created by Lakshmy on 8/23/2016.
+ * Created by Aishwarya on 8/23/2016.
  */
 public class LinkedListImplementationOfStack <Item> implements Stack<Item>
 {

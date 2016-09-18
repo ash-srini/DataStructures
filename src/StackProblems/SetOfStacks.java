@@ -6,7 +6,7 @@ import java.util.LinkedList;
  */
 
 /**
- * Created by Lakshmy on 8/31/2016.
+ * Created by Aishwarya on 8/31/2016.
  */
 public class SetOfStacks<Item> implements Stack<Item>
 {

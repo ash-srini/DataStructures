@@ -3,7 +3,7 @@ package SearchingAndSorting;
 import java.util.Scanner;
 
 /**
- * Created by Lakshmy on 9/4/2016.
+ * Created by Aishwarya on 9/4/2016.
  */
 public class MergeSortedArrays {
     public static void main(String[] args)
