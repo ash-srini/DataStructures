@@ -3,6 +3,7 @@ package BinaryTree;
 import java.lang.Math;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Created by aishwaryasrinivasan on 18/09/16.
@@ -39,6 +40,32 @@ public class BinaryTree  {
         printInorder(node.right);
     }
 
+    public void nonRecursiveInorder(Node node)
+    {
+        Stack<Node> stack = new Stack<Node>();
+        Node current = node;
+        while(current != null)
+        {
+            stack.push(node);
+            current = current.left;
+        }
+
+        while(!stack.isEmpty()) {
+            node = stack.pop();
+            System.out.print(node.key + " ");
+            if (node.right != null)
+            {
+                node = node.right;
+                while (node != null)
+                {
+                    stack.push(node);
+                    node = node.left;
+                }
+            }
+        }
+
+    }
+
     //preorder traversal - root -> left -> right
     public void printPreorder(Node node)
     {
@@ -56,8 +83,8 @@ public class BinaryTree  {
         if (node == null)
             return;
 
-        printPreorder(node.left);
-        printPreorder(node.right);
+        printPostorder(node.left);
+        printPostorder(node.right);
         System.out.print(node.key + " ");
     }
 
@@ -170,19 +197,23 @@ public class BinaryTree  {
         int root = postorder[postorderEnd];
         Node node = new Node(root);
 
-//        if(inorderStart == inorderEnd)
-//            return node;
+        if(inorderStart == inorderEnd)
+            return node;
 
         int root_index = 0;
-        for(int i=0; i<inorder.length; i++) {
+        for(int i=inorderStart; i<inorder.length; i++) {
             if (inorder[i] == root) {
                 root_index = i;
                 break;
             }
 
         }
-        node.left = constructFromInorderAndPostorder(inorder, inorderStart, root_index-1, postorder, postorderStart, postorderStart + root_index - (inorderStart + 1));
-        node.right = constructFromInorderAndPostorder(inorder, root_index+1, inorderEnd, postorder, postorderStart+root_index- inorderStart, postorderEnd - 1);
+
+        int leftSubTreeCount = root_index - inorderStart;
+        int rightSubTreeCout = inorderEnd - root_index;
+
+        node.left = constructFromInorderAndPostorder(inorder, inorderStart, inorderStart+leftSubTreeCount-1, postorder, postorderStart, postorderStart+leftSubTreeCount-1);
+        node.right = constructFromInorderAndPostorder(inorder, inorderEnd-rightSubTreeCout+1, inorderEnd, postorder,  postorderEnd-rightSubTreeCout, postorderEnd-1);
 
         return node;
 
@@ -193,9 +224,43 @@ public class BinaryTree  {
         return constructFromInorderAndPostorder(inorder, 0, inorder.length-1, postorder, 0, postorder.length-1);
     }
 
+    /*construct tree from inorder and preorder traversals*/
+    public Node constructFromInorderAndPreorder(int[] inorder, int[] preorder, int inStart, int inEnd, int preStart, int preEnd)
+    {
+        if(inStart > inEnd || preStart > preEnd)
+            return null;
 
+        int root = preorder[preStart];
+        int root_index = 0;
 
-    /* check if tree is a subtree of another binary tree */
+        for (int i=0; i<inorder.length; i++)
+        {
+            if(inorder[i] == root)
+            {
+                root_index = i;
+                break;
+            }
+        }
+
+        Node node = new Node(root);
+
+        if(inStart == inEnd)
+            return node;
+
+        int leftSubTreeCount = root_index - inStart;
+        int rightSubTreeCout = inEnd - root_index;
+
+        node.left = constructFromInorderAndPreorder(inorder, preorder, inStart, inStart+leftSubTreeCount-1, preStart+1, preStart+leftSubTreeCount);
+        node.right = constructFromInorderAndPreorder(inorder, preorder, inEnd-rightSubTreeCout+1, inEnd, preEnd-rightSubTreeCout+1, preEnd);
+
+        return node;
+    }
+
+    public Node constructFromInorderAndPreorder(int[] inorder, int[] preorder)
+    {
+        return constructFromInorderAndPreorder(inorder, preorder, 0, inorder.length-1, 0, preorder.length-1);
+    }
+
 
     public static void main(String[] args)
     {
@@ -212,6 +277,9 @@ public class BinaryTree  {
         //print inorder
         tree.printInorder(tree.root);
         System.out.println();
+
+        //print non-recursive inorder
+        tree.nonRecursiveInorder(tree.root);
 
         //print preorder
         tree.printPreorder(tree.root);
@@ -267,16 +335,32 @@ public class BinaryTree  {
         System.out.println();
         System.out.println("Are the two trees indentical? " + tree.identicalTrees(tree.root, tree2.root));
 
-        //given inorder and post rder arrays, construct a binary tree
+
         int[] inorder = { 4, 2, 5, 1, 6, 3, 7 };
-        int[] postorder = {4, 5, 2, 6, 7, 3, 1 };
+        int[] preorder = {1, 2, 4, 5, 3, 6, 7 };
+        int[] postorder = {4, 5, 2, 6, 7, 3, 1};
+
+        //given inorder and pre-order arrays, construct a binary tree
         BinaryTree newTree = new BinaryTree();
-        newTree.root = newTree.constructFromInorderAndPostorder(inorder, postorder);
+
+        newTree.root = newTree.constructFromInorderAndPreorder(inorder, preorder);
         newTree.printInorder(newTree.root);
         System.out.println();
         newTree.printPostorder(newTree.root);
         System.out.println();
         newTree.printPreorder(newTree.root);
+        System.out.println();
+
+        //given inorder and post-order, construct a binary tree
+        BinaryTree buildTree = new BinaryTree();
+        buildTree.root = buildTree.constructFromInorderAndPostorder(inorder, postorder);
+        newTree.printInorder(newTree.root);
+        System.out.println();
+        newTree.printPostorder(newTree.root);
+        System.out.println();
+        newTree.printPreorder(newTree.root);
+
+
 
     }
 }
