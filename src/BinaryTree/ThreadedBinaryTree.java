@@ -51,9 +51,7 @@ public class ThreadedBinaryTree extends BinaryTree{
          their right pointer point to the next node in its inorder traversal.
          */
         btree.convertToSinglyThreaded(btree.root, null);
-        System.out.println(btree.root);
-        btree.convertToDoublyThreaded(btree.root, null, null);
-        System.out.println(btree.root);
+        btree.printInorder(btree.root);
 
     }
 }
