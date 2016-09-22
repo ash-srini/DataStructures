@@ -2,6 +2,11 @@ package HackerRank;
 
 /**
  * Created by aishwaryasrinivasan on 21/09/16.
+ *
+ * Problem can be viewed in the following link:
+ * https://www.hackerrank.com/challenges/swap-nodes-algo
+ *
+ *
  */
 
 import java.io.*;
