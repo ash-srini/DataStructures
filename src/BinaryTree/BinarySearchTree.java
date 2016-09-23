@@ -1,5 +1,5 @@
 package BinaryTree;
-
+import java.util.*;
 /**
  * Created by aishwaryasrinivasan on 21/09/16.
  */
@@ -110,6 +110,62 @@ public class BinarySearchTree extends BinaryTree
         deleteFromBST(this.root, key);
     }
 
+    /* Check if given tree is a BST
+    * tree is bst if the nodes of the left sub-tree have keys smaller then the root
+    * and that of the right sub-tree are greater than the root for each sub-tree. */
+    public boolean isBST(Node node){
+
+        /* The key of each successor node of the inorder traversal should be
+         * greater than the key of its predecessor */
+       // return isBST(node, 0, 0);
+        ArrayList<Integer> al = new ArrayList<>();
+      return isBST(node, 0, al);
+    }
+
+    /*max is the max alue in the left sub-tree na dmin is the min value in the right sub-tree
+    * The min value should be greater than the max value*/
+    public boolean isBST(Node node, int index, ArrayList<Integer> al)
+    {
+        if(node == null )
+            return true;
+
+        isBST(node.left, index, al);
+
+        al.add(node.key);
+        index+=index;
+
+        isBST(node.right, index, al);
+
+        if( index > 0 && al.get(index) < al.get(index-1))
+            return false;
+        else
+            return true;
+
+    }
+
+    public static int prev = Integer.MIN_VALUE;
+
+    /* Check if the given binary tree is a binary search tree */
+    public boolean checkBST(Node node)
+    {
+        if(node == null)
+            return true;
+
+        if(!checkBST(node.left))
+            return false;
+
+        if(node.key <= prev)
+            return false;
+
+        prev = node.key;
+
+        if(!checkBST(node.right))
+            return false;
+
+        return true;
+    }
+
+
     public static void main(String[] args)
     {
         BinarySearchTree bst = new BinarySearchTree();
@@ -121,19 +177,21 @@ public class BinarySearchTree extends BinaryTree
         bst.insertIntoBST(60);
         bst.insertIntoBST(80);
 
-        bst.printInorder(bst.root);
-        System.out.println();
+//        bst.printInorder(bst.root);
+//        System.out.println();
+//
+//        int key = 60;
+//        System.out.println("Is key " + key + " present? " + bst.searchBST(key));
+//
+//        key = 25;
+//        System.out.println("Is key " + key + " present? " + bst.searchBST(key));
+//
+//        bst.deleteFromBST(20);
+//        bst.printInorder(bst.root);
+//
+//        bst.deleteFromBST(50);
 
-        int key = 60;
-        System.out.println("Is key " + key + " present? " + bst.searchBST(key));
-
-        key = 25;
-        System.out.println("Is key " + key + " present? " + bst.searchBST(key));
-
-        bst.deleteFromBST(20);
-        bst.printInorder(bst.root);
-
-        bst.deleteFromBST(50);
+        bst.isBST(bst.root);
     }
 
 

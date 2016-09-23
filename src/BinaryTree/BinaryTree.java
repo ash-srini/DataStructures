@@ -124,7 +124,7 @@ public class BinaryTree  {
     {
         if(node == null)
             return;
-        if(level == 1)
+        else if(level == 1)
             System.out.print(node.key + " ");
         else if(level >1)
         {
