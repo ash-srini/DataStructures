@@ -44,7 +44,7 @@ public class UndirectedGraph {
     }
 
     /* Detecting cycle in a undirected graph using union find algorithm
-       * Complexity of this method is O(log n) */
+       * Complexity of this method is O(nlog n) */
     public int isCyclic(){
         int[] parent = new int[V];
         //initialize parent array to -1 since we haven't found the parent of any subset

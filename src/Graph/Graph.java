@@ -129,6 +129,40 @@ public class Graph {
         return false;
     }
 
+    /* Topological sorting */
+
+    /* Print all paths from source to destination */
+    public void printPaths(int u, int v){
+        boolean[] visited =  new boolean[vertices];
+        int[] path = new int[vertices];
+        int pathIndex = 0;
+        printAllPaths(u,v,visited,path, pathIndex);
+
+    }
+
+    public void printAllPaths(int u, int v, boolean[] visited, int[] path, int pathIndex){
+        visited[u] = true;
+        path[pathIndex] = u;
+        pathIndex++;
+
+        if(u == v){
+            for (int i=0; i<pathIndex; i++){
+                System.out.print(path[i]+ " ");
+
+            }
+        }else{
+            Iterator<Integer> iterator = adjList[u].listIterator();
+            while(iterator.hasNext()){
+                int visitIndex = iterator.next();
+                if(!visited[visitIndex])
+                    printAllPaths(visitIndex, v, visited, path, pathIndex);
+            }
+        }
+        System.out.println();
+        pathIndex--;
+        visited[u] = false;
+    }
+
 
     /* Following are the applications of BFS */
 
@@ -166,6 +200,18 @@ public class Graph {
         g.addDirectedEdge(3,4);
         g.addDirectedEdge(2,5);
         System.out.println("Is graph cyclic? " + g.isCyclic());
+
+        Graph dag = new Graph(4);
+
+        dag.addDirectedEdge(0,1);
+        dag.addDirectedEdge(0,2);
+        dag.addDirectedEdge(0,3);
+        dag.addDirectedEdge(1,3);
+        dag.addDirectedEdge(2,0);
+        dag.addDirectedEdge(2,1);
+
+        System.out.println("Is dag graph cyclic? " +dag.isCyclic());
+        dag.printPaths(2,3);
     }
 
 }
