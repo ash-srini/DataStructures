@@ -13,6 +13,8 @@ public class BinarySearchTree extends BinaryTree
     * Once leaf is found, insert the node as left or right child
     * depending on if the key of the new node is greater or less than the leaf's key*/
 
+    //test git pr
+
     public Node insertIntoBST(Node node, int key)
     {
         if(node == null || node.key == key)
